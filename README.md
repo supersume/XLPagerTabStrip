@@ -46,7 +46,7 @@ public override UIViewController[] CreateViewControllersForPagerTabStrip(PagerTa
 }
 ```
 
-> The method above is the only method declared in `PagerTabStripDataSource` protocol. We don't need to explicitly conform to it since base pager class already does it.
+> The method above is the only method declared in `IPagerTabStripDataSource` interface. We don't need to explicitly conform to it since base pager class already does it.
 
 
 ##### Provide information to show in each indicator
@@ -61,5 +61,23 @@ public class MyEmbeddedViewController: UITableViewController, IIndicatorInfoProv
   public IndicatorInfo IndicatorInfoForPagerTabStrip(PagerTabStripViewController pagerTabStripController)     {
     return new IndicatorInfo("My Child title");
   }
+}
+```
+
+## Customization
+
+##### Pager Behaviour
+
+The pager indicator can be updated progressive as we swipe or at once in the middle of the transition between the view controllers.
+By setting up `pagerBehaviour` property we can choose how the indicator should be updated.
+
+```c#
+public PagerTabStripBehaviour pagerBehaviour
+```
+
+```swift
+public enum PagerTabStripBehaviour {
+    case Common(skipIntermediteViewControllers: Bool)
+    case Progressive(skipIntermediteViewControllers: Bool, elasticIndicatorLimit: Bool)
 }
 ```
