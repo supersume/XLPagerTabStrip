@@ -17,6 +17,8 @@ This is likely to be the most common pager type. It's used by many well known ap
 
 ![Screenshot](https://github.com/supersume/XLPagerTabStrip/blob/master/Simulator.png?raw=true)
 
+Support for other pager types, `TwitterPagerTabStripViewController`, `SegmentedPagerTabStripViewController`,`BarPagerTabStripViewController` will be provided with future releases.
+
 # Usage
 Basically we just need to provide the list of child view controllers to show and these view controllers should provide the information (title or image) that will be shown in the associated indicator.
 
