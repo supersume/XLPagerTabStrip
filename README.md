@@ -72,12 +72,13 @@ The pager indicator can be updated progressive as we swipe or at once in the mid
 By setting up `pagerBehaviour` property we can choose how the indicator should be updated.
 
 ```c#
-public PagerTabStripBehaviour pagerBehaviour
+public PagerTabStripBehaviour pagerBehaviour;
 ```
 
-```swift
-public enum PagerTabStripBehaviour {
-    case Common(skipIntermediteViewControllers: Bool)
-    case Progressive(skipIntermediteViewControllers: Bool, elasticIndicatorLimit: Bool)
+```c#
+public class PagerTabStripBehaviour 
+{
+    public bool? SkipIntermediateViewControllers { get; set; };
+    public bool? ElasticIndicatorLimit { get; set; };
 }
 ```
