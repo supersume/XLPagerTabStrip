@@ -82,10 +82,6 @@ namespace TabStripExample
                 // button was clicked
             }), false);
 
-            NavigationItem.SetLeftBarButtonItem(new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace, (sender, args) => {
-                // button was clicked
-            }), false);
-
             base.ViewDidLoad();
 
             // Perform any additional setup after loading the view
