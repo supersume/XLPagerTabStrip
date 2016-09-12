@@ -37,11 +37,12 @@ public class MyPagerTabStripName: ButtonBarPagerTabStripViewController
 
 ##### Provide the view controllers that will appear embedded into the PagerTabStrip view controller
 
-You can provide the view controllers by overriding `func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController]` method.
+You can provide the view controllers by overriding `CreateViewControllersForPagerTabStrip(PagerTabStripViewController pagerTabStripController)` method.
 
-```swift
-override public func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-  return [MyEmbeddedViewController(), MySecondEmbeddedViewController()]
+```c#
+public override UIViewController[] CreateViewControllersForPagerTabStrip(PagerTabStripViewController pagerTabStripViewController) 
+{
+  return new UIViewController[] { MyEmbeddedViewController(), MySecondEmbeddedViewController() };
 }
 ```
 
@@ -51,13 +52,13 @@ override public func viewControllersForPagerTabStrip(pagerTabStripController: Pa
 ##### Provide information to show in each indicator
 
 Every UIViewController that will appear within the PagerTabStrip needs to provide either a title or an image.
-In order to do so they should conform to `IndicatorInfoProvider` by implementing `func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo`
+In order to do so they should implement the `IIndicatorInfoProvider` interface method `IndicatorInfoForPagerTabStrip(PagerTabStripViewController pagerTabStripController)`
  which provides the information required to show the PagerTabStrip menu (indicator) associated with the view controller.
 
 ```c#
-public class MyEmbeddedViewController: UITableViewController, IndicatorInfoProvider 
+public class MyEmbeddedViewController: UITableViewController, IIndicatorInfoProvider
 {
-  override IndicatorInfo indicatorInfoForPagerTabStrip(PagerTabStripViewController pagerTabStripController)   {
+  public IndicatorInfo IndicatorInfoForPagerTabStrip(PagerTabStripViewController pagerTabStripController)     {
     return new IndicatorInfo("My Child title");
   }
 }
