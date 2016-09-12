@@ -25,3 +25,10 @@ Let's see the steps to do this:
 First we should choose the type of pager we want to create, depending on our choice we will have to create a view controller that inherits from one of the following controllers: `TwitterPagerTabStripViewController`, `ButtonBarPagerTabStripViewController`, `SegmentedPagerTabStripViewController`,`BarPagerTabStripViewController`.
 
 > All these build-in pager controllers extend from the base class PagerTabStripViewController. You can also make your custom pager controller by extending directly from PagerTabStripViewController in case no pager menu type fits your needs.
+
+`import XLPagerTabStrip
+
+public class MyPagerTabStripName: ButtonBarPagerTabStripViewController 
+{
+  ..
+}`
