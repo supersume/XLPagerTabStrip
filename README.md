@@ -26,9 +26,11 @@ First we should choose the type of pager we want to create, depending on our cho
 
 > All these build-in pager controllers extend from the base class PagerTabStripViewController. You can also make your custom pager controller by extending directly from PagerTabStripViewController in case no pager menu type fits your needs.
 
-`import XLPagerTabStrip
+```c#
+using XLPagerTabStrip;
 
 public class MyPagerTabStripName: ButtonBarPagerTabStripViewController 
 {
   ..
-}`
+}
+```
