@@ -13,4 +13,5 @@ Currently the library supports only one pager type
 ## Button Bar
 This is likely to be the most common pager type. It's used by many well known apps such as instagram, youtube, skype and many others.
 
-![Simulator]({{site.baseurl}}//Simulator.png)
+![Simulator]({{site.baseurl}}/![Screenshot]({{site.baseurl}}/Simulator.png)
+/Simulator.png)
