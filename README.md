@@ -94,3 +94,109 @@ PagerTabStripBehaviour.Create(skipIntermediteViewControllers: true, elasticIndic
 // ButtonBar Type
 PagerTabStripBehaviour.Create(skipIntermediteViewControllers: true, elasticIndicatorLimit: true);
 ```
+
+As you might have noticed `PagerTabStripBehaviour` class cases has `SkipIntermediteViewControllers` and `ElasticIndicatorLimit` properties.
+
+`SkipIntermediteViewControllers` allows us to skip intermediate view controllers when a tab indicator is tapped.
+
+`ElasticIndicatorLimit` allows us to tension the indicator when we reach a limit, I mean when we try to move forward from last indicator or move back from first indicator.
+
+##### IPagerTabStripDelegate & IPagerTabStripIsProgressiveDelegate
+
+Normally we don't need to implement these interfaces because each pager type already conforms to it in order to properly update its indicator. Anyway there may be some scenarios when overriding a method come come in handy.
+
+```c#
+public interface IPagerTabStripDelegate 
+{
+    void PagerTabStripViewController(PagerTabStripViewController pagerTabStripViewController, int fromIndex, int toIndex);
+}
+
+public interface IPagerTabStripIsProgressiveDelegate : IPagerTabStripDelegate 
+{
+    void PagerTabStripViewController(PagerTabStripViewController pagerTabStripViewController, int fromIndex, int toIndex, nfloat progressPercentage, bool indexWasChanged);
+}
+```
+
+> Again, The method invoked by the library depends on the `PagerBehaviour` value.
+
+### ButtonBar Customization
+
+```c#
+
+public UIColor ButtonBarBackgroundColor { get; set; }
+// buttonBar minimumLineSpacing value
+public nfloat? ButtonBarMinimumLineSpacing { get; set; }
+// buttonBar flow layout left content inset value
+public nfloat? ButtonBarLeftContentInset { get; set; }
+// buttonBar flow layout right content inset value
+public nfloat? ButtonBarRightContentInset { get; set; }
+
+
+// selected bar view is created programmatically so it's important to set up the following 2 properties properly
+public UIColor SelectedBarBackgroundColor { get; set; } = UIColor.Black;
+public nfloat? SelectedBarHeight { get; set; } = 4;
+
+// each buttonBar item is a UICollectionView cell of type ButtonBarViewCell
+public UIColor ButtonBarItemBackgroundColor { get; set; }
+public UIFont ButtonBarItemFont { get; set; } = UIFont.SystemFontOfSize(18);
+// helps to determine the cell width, it represent the space before and after the title label
+public nfloat? ButtonBarItemLeftRightMargin { get; set; } = 8;
+public UIColor ButtonBarItemTitleColor { get; set; }
+// in case the barView items do not fill the screen width this property stretch the cells to fill the screen
+public bool ButtonBarItemsShouldFillAvailiableWidth { get; set; } = false;
+
+// only used if button bar is created programaticaly and not using storyboards or nib files
+public nfloat? ButtonBarHeight { get; set; }
+```
+
+**Important:** Settings should be called before `ViewDidLoad` is called.
+```c#
+public override void ViewDidLoad() 
+{
+   this.Settings.Style.SelectedBarHeight = 2;
+   this.Settings.Style.SelectedBarBackgroundColor = UIColor.White;
+
+   base.ViewDidLoad();
+}
+```
+
+#####  Update cells when selected indicator changes
+
+We may need to update the indicator cell when the displayed view controller changes. The following function properties help to accomplish that. Depending on our pager `PagerBehaviour` property value we will have to set up `ChangeCurrentIndex` or `ChangeCurrentIndexProgressive`.
+
+```c#
+public void changeCurrentIndex: (ButtonBarViewCell oldCell, ButtonBarViewCell newCell, bool animated);
+public void changeCurrentIndexProgressive(ButtonBarViewCell oldCell, ButtonBarViewCell newCell, nfloat progressPercentage, bool changeCurrentIndex, bool animated);
+```
+
+Let's see an example:
+
+```c#
+void changeCurrentIndexProgressive(ButtonBarViewCell oldCell, ButtonBarViewCell newCell, nfloat progressPercentage, bool changeCurrentIndex, bool animated)
+{
+    if (changeCurrentIndex == true)
+    {
+        if (oldCell != null)
+            oldCell.Label.TextColor = UIColor.White;
+        if (newCell != null)
+            newCell.Label.TextColor = UIColor.Black;
+    }
+}
+```
+
+## FAQ
+
+#### How to change the visible child view controller programmatically
+
+`XLPagerTabStripViewController` provides the following methods to programmatically change the visible child view controller:
+
+```c#
+void MoveToViewControllerAtIndex(int index);
+void MoveToViewControllerAtIndex(int index, bool animated);
+void MoveToViewController(UIViewController viewController);
+void MoveToViewController(UIViewController viewController, bool animated);
+```
+
+## Author
+
+* [Asumege Alison](https://github.com/supersume) ([@supersume](https://twitter.com/supersume))
