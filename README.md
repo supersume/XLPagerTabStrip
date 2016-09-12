@@ -203,4 +203,4 @@ void MoveToViewController(UIViewController viewController, bool animated);
 
 ## Credits to
 
-[Martin Barreto](https://github.com/mtnBarreto) ([@mtnBarreto](https://twitter.com/mtnBarreto))
+* [Martin Barreto](https://github.com/mtnBarreto) ([@mtnBarreto](https://twitter.com/mtnBarreto))
