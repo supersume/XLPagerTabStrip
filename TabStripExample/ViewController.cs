@@ -30,7 +30,7 @@ namespace TabStripExample
     [Register("ViewController")]
     public class ViewController : ButtonBarPagerTabStripViewController/*, IPagerTabStripDataSource*/
     {
-        UIColor crimson = UIColor.FromRGB(204, 0, 51);
+        UIColor themeColor = UIColor.FromRGB(165, 16, 129);
         public ViewController()
         {
 
@@ -64,11 +64,11 @@ namespace TabStripExample
             View = new UniversalView();
             View.BackgroundColor = UIColor.White;
 
-            Settings.Style.ButtonBarBackgroundColor = crimson;
-            Settings.Style.ButtonBarItemBackgroundColor = crimson;
+            Settings.Style.ButtonBarBackgroundColor = themeColor;
+            Settings.Style.ButtonBarItemBackgroundColor = themeColor;
             Settings.Style.SelectedBarBackgroundColor = UIColor.White;
             Settings.Style.ButtonBarItemFont = UIFont.BoldSystemFontOfSize(12);
-            Settings.Style.SelectedBarHeight = 2;
+            Settings.Style.SelectedBarHeight = 4;
             Settings.Style.ButtonBarMinimumLineSpacing = 0;
             Settings.Style.ButtonBarItemTitleColor = UIColor.White;
             Settings.Style.ButtonBarItemsShouldFillAvailiableWidth = true;
@@ -78,10 +78,6 @@ namespace TabStripExample
 
             ChangeCurrentIndexProgressive = changeCurrentIndexProgressive;
 
-            NavigationItem.SetRightBarButtonItem(new UIBarButtonItem(UIBarButtonSystemItem.Search, (sender, args) => {
-                // button was clicked
-            }), false);
-
             base.ViewDidLoad();
 
             // Perform any additional setup after loading the view
@@ -89,10 +85,10 @@ namespace TabStripExample
 
         public override UIViewController[] CreateViewControllersForPagerTabStrip(PagerTabStripViewController pagerTabStripViewController)
         {
-            ChildViewController controller1 = new ChildViewController("STREAM");
+            ChildViewController controller1 = new ChildViewController("PODCASTS");
             ChildViewController controller2 = new ChildViewController("VIDEOS");
-            ChildViewController controller3 = new ChildViewController("TOPICS");
-            ChildViewController controller4 = new ChildViewController("SOURCES");
+            ChildViewController controller3 = new ChildViewController("TRENDING");
+            ChildViewController controller4 = new ChildViewController("PROFILE");
             //ChildViewController controller5 = new ChildViewController("Mithra");
             //ChildViewController controller6 = new ChildViewController("Varuna");
 

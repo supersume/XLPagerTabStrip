@@ -33,6 +33,8 @@ namespace TabStripExample
             navigationController.NavigationBar.TintColor = UIColor.White;
             navigationController.NavigationBar.BarStyle = UIBarStyle.Black;
             navigationController.NavigationBar.Translucent = false;
+            navigationController.NavigationBar.ShadowImage = new UIImage();
+            navigationController.NavigationBar.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
 
             Window.RootViewController = navigationController;
 
@@ -43,7 +45,7 @@ namespace TabStripExample
 
             navigationController.PushViewController(tabController, false);
 
-            UIColor crimson = UIColor.FromRGB(204, 0, 51);
+            UIColor crimson = UIColor.FromRGB(165, 16, 129);
             UINavigationBar.Appearance.BarTintColor = crimson;
             //UIApplication.SharedApplication.KeyWindow.TintColor = crimson;
 
