@@ -3,6 +3,8 @@ Xamarin port of the iOS library [XLPagerTabStrip](https://github.com/xmartlabs/X
 
 Android [PagerTabStrip](http://developer.android.com/reference/android/support/v4/view/PagerTabStrip.html) for iOS!
 
+**This is not a binding library. It is a C# port of the Swift version of the library.**
+
 **XLPagerTabStrip** is a _Container View Controller_ that allows us to switch easily among a collection of view controllers. Pan gesture can be used to move on to next or previous view controller. It shows a interactive indicator of the current, previous, next child view controllers.
 
 Dou you use the library? You can check us out on [twitter](https://twitter.com/supersume)
