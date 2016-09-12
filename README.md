@@ -20,7 +20,7 @@ Basically we just need to provide the list of child view controllers to show and
 
 Let's see the steps to do this:
 
-**Choose which type of pager we want to create**
+##### Choose which type of pager we want to create
 
 First we should choose the type of pager we want to create, depending on our choice we will have to create a view controller that inherits from one of the following controllers: `TwitterPagerTabStripViewController`, `ButtonBarPagerTabStripViewController`, `SegmentedPagerTabStripViewController`,`BarPagerTabStripViewController`.
 
@@ -32,5 +32,33 @@ using XLPagerTabStrip;
 public class MyPagerTabStripName: ButtonBarPagerTabStripViewController 
 {
   ..
+}
+```
+
+##### Provide the view controllers that will appear embedded into the PagerTabStrip view controller
+
+You can provide the view controllers by overriding `func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController]` method.
+
+```swift
+override public func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+  return [MyEmbeddedViewController(), MySecondEmbeddedViewController()]
+}
+```
+
+> The method above is the only method declared in `PagerTabStripDataSource` protocol. We don't need to explicitly conform to it since base pager class already does it.
+
+
+##### Provide information to show in each indicator
+
+Every UIViewController that will appear within the PagerTabStrip needs to provide either a title or an image.
+In order to do so they should conform to `IndicatorInfoProvider` by implementing `func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo`
+ which provides the information required to show the PagerTabStrip menu (indicator) associated with the view controller.
+
+```c#
+public class MyEmbeddedViewController: UITableViewController, IndicatorInfoProvider 
+{
+  override IndicatorInfo indicatorInfoForPagerTabStrip(PagerTabStripViewController pagerTabStripController)   {
+    return new IndicatorInfo("My Child title");
+  }
 }
 ```
