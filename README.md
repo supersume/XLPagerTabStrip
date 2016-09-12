@@ -200,3 +200,7 @@ void MoveToViewController(UIViewController viewController, bool animated);
 ## Author
 
 * [Asumege Alison](https://github.com/supersume) ([@supersume](https://twitter.com/supersume))
+
+## Credits to
+
+[Martin Barreto](https://github.com/mtnBarreto) ([@mtnBarreto](https://twitter.com/mtnBarreto))
