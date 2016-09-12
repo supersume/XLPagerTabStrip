@@ -82,3 +82,15 @@ public class PagerTabStripBehaviour
     public bool? ElasticIndicatorLimit { get; set; };
 }
 ```
+
+Default Values:
+```c#
+// Twitter Type
+PagerTabStripBehaviour.Create(skipIntermediteViewControllers: true);
+// Segmented Type
+PagerTabStripBehaviour.Create(skipIntermediteViewControllers: true);
+// Bar Type
+PagerTabStripBehaviour.Create(skipIntermediteViewControllers: true, elasticIndicatorLimit: true);
+// ButtonBar Type
+PagerTabStripBehaviour.Create(skipIntermediteViewControllers: true, elasticIndicatorLimit: true);
+```
