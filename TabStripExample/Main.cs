@@ -10,14 +10,14 @@ namespace TabStripExample
         {
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
-            try
-            {
+            //try
+            //{
                 UIApplication.Main(args, null, "AppDelegate");
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine($"Our error: {error.Message}");
-            }
+            //}
+            //catch (Exception error)
+            //{
+            //    Console.WriteLine($"Our error: {error.Message}");
+            //}
         }
     }
 }

@@ -368,7 +368,7 @@ namespace XLPagerTabStrip
             isViewRotating = true;
             pageBeforeRotate = CurrentIndex;
 
-            coordinator.AnimateAlongsideTransition(null, (context) =>
+            coordinator.AnimateAlongsideTransition((context) =>
             {
                 if (this != null)
                 {
@@ -376,7 +376,7 @@ namespace XLPagerTabStrip
                     CurrentIndex = pageBeforeRotate;
                     UpdateIfNeeded();
                 }
-            });
+            }, (context) => { });
         }
         #endregion
 
