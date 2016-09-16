@@ -5,6 +5,7 @@ using CoreFoundation;
 using UIKit;
 using Foundation;
 using XLPagerTabStrip;
+using CoreGraphics;
 
 namespace TabStripExample
 {
@@ -16,7 +17,7 @@ namespace TabStripExample
             Initialize();
         }
 
-        public UniversalView(RectangleF bounds) : base(bounds)
+        public UniversalView(CGRect bounds) : base(bounds)
         {
             Initialize();
         }
@@ -61,8 +62,8 @@ namespace TabStripExample
 
         public override void ViewDidLoad()
         {
-            View = new UniversalView();
-            View.BackgroundColor = UIColor.White;
+            View = new UniversalView(View.Frame);
+            View.BackgroundColor = UIColor.FromRGB(214,214,214);
 
             Settings.Style.ButtonBarBackgroundColor = themeColor;
             Settings.Style.ButtonBarItemBackgroundColor = themeColor;
@@ -97,13 +98,13 @@ namespace TabStripExample
 
         void changeCurrentIndexProgressive(ButtonBarViewCell oldCell, ButtonBarViewCell newCell, nfloat progressPercentage, bool changeCurrentIndex, bool animated)
         {
-            if (changeCurrentIndex == true)
-            {
-                //if (oldCell != null)
-                //    oldCell.Label.TextColor = UIColor.White;
-                //if (newCell != null)
-                //    newCell.Label.TextColor = crimson;
-            }
+            //if (changeCurrentIndex == true)
+            //{
+            //    if (oldCell != null)
+            //        oldCell.Label.TextColor = UIColor.White;
+            //    if (newCell != null)
+            //        newCell.Label.TextColor = crimson;
+            //}
         }
     }
 

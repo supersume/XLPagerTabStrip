@@ -32,12 +32,8 @@ namespace XLPagerTabStrip
             buttonBar.BackgroundColor = Settings.Style.ButtonBarBackgroundColor ?? UIColor.Orange;
             buttonBar.SelectedBar.BackgroundColor = Settings.Style.SelectedBarBackgroundColor ?? UIColor.Black;
             buttonBar.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
-            //var newContainerViewFrame = ContainerView.Frame;
-            //newContainerViewFrame.Y = 48;// buttonBarHeight;
-            //newContainerViewFrame.Size = new CGSize(ContainerView.Frame.Size.Width, ContainerView.Frame.Size.Height - (buttonBarHeight - ContainerView.Frame.Y));
             var newContainerViewFrame = new CGRect(ContainerView.Frame.X, buttonBarHeight, ContainerView.Frame.Size.Width, ContainerView.Frame.Size.Height - (buttonBarHeight - ContainerView.Frame.Y));
             ContainerView.Frame = newContainerViewFrame;
-            
             return buttonBar;
         }
 
