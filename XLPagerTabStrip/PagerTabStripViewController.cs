@@ -139,7 +139,9 @@ namespace XLPagerTabStrip
 
             if (animated && PagerBehaviour.SkipIntermediateViewControllers == true && Math.Abs(CurrentIndex - index) > 1)
             {
-                var tmpViewControllers = ViewControllers;
+				// create a copy of the view controller array so the 
+				// orignal view controller array indices don't get modified
+				var tmpViewControllers = ViewControllers.ToArray();
                 var currentChildVC = ViewControllers[CurrentIndex];
                 var fromIndex = CurrentIndex < index ? index - 1 : index + 1;
                 var fromChildVC = ViewControllers[fromIndex];
