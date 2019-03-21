@@ -412,10 +412,10 @@ namespace XLPagerTabStrip
 
     public class ButtonBarPagerTabStripSettings
     {
-        public Style Style { get; set; } = new Style();
+        public ButtonBarPagerTabStripStyle Style { get; set; } = new ButtonBarPagerTabStripStyle();
     }
 
-    public class Style  
+    public class ButtonBarPagerTabStripStyle
     {
         public UIColor ButtonBarBackgroundColor { get; set; }
         public nfloat? ButtonBarMinimumInteritemSpacing { get; set; }
