@@ -125,7 +125,6 @@ namespace XLPagerTabStrip
             ButtonBarView.SelectedBar.BackgroundColor = Settings.Style.SelectedBarBackgroundColor;
 
             ButtonBarView.SelectedBarHeight = Settings.Style.SelectedBarHeight ?? ButtonBarView.SelectedBarHeight;
-            //todo add selectedBarVerticalAlignment
 
             //register button bar item cell
             if (ButtonBarItemSpec.NibName != null)
@@ -167,7 +166,6 @@ namespace XLPagerTabStrip
                 // selectedBar is resized and its contentOffset/scroll is set correctly (the selected
                 // tab/cell may end up either skewed or off screen after a rotation otherwise)
                 ButtonBarView.MoveToIndex((int)CurrentIndex, animated: false, swipeDirection: SwipeDirection.None, pagerScroll: PagerScroll.ScrollOnlyIfOutOfScreen);
-                //ButtonBarView.SelectItem(NSIndexPath.FromRowSection((int)CurrentIndex, 0), animated: false, UICollectionViewScrollPosition.None);
             }
         }
 
@@ -425,7 +423,6 @@ namespace XLPagerTabStrip
 
         public UIColor SelectedBarBackgroundColor { get; set; } = UIColor.Black;
         public nfloat? SelectedBarHeight { get; set; } = 5;
-        //public SelectedBarVerticalAlignment SelectedBarVerticalAlignment = SelectedBarVerticalAlignment.Bottom;
 
         public UIColor ButtonBarItemBackgroundColor { get; set; }
         public UIFont ButtonBarItemFont { get; set; } = UIFont.SystemFontOfSize(18);
