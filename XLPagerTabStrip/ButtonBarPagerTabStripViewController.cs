@@ -125,6 +125,7 @@ namespace XLPagerTabStrip
             ButtonBarView.SelectedBar.BackgroundColor = Settings.Style.SelectedBarBackgroundColor;
 
             ButtonBarView.SelectedBarHeight = Settings.Style.SelectedBarHeight ?? ButtonBarView.SelectedBarHeight;
+            ButtonBarView.SelectedBarWidth = Settings.Style.SelectedBarWidth ?? ButtonBarView.SelectedBarWidth;
 
             //register button bar item cell
             if (ButtonBarItemSpec.NibName != null)
@@ -423,6 +424,7 @@ namespace XLPagerTabStrip
 
         public UIColor SelectedBarBackgroundColor { get; set; } = UIColor.Black;
         public nfloat? SelectedBarHeight { get; set; } = 5;
+        public nfloat? SelectedBarWidth { get; set; }
 
         public UIColor ButtonBarItemBackgroundColor { get; set; }
         public UIFont ButtonBarItemFont { get; set; } = UIFont.SystemFontOfSize(18);

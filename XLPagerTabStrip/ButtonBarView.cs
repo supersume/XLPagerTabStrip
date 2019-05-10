@@ -17,14 +17,13 @@ namespace XLPagerTabStrip
 
         private UIView InitializeSelectBar()
         {
-            var frame = new CGRect(0, Frame.Size.Height - SelectedBarHeight, 0, SelectedBarHeight);
+            var frame = new CGRect(0, Frame.Size.Height - SelectedBarHeight, this.SelectedBarWidth ?? 0, SelectedBarHeight);
             UIView bar = new UIView(frame);
             bar.Layer.ZPosition = 9999;
             return bar;
         }
 
         nfloat _selectedBarHeight = 4;
-
         internal nfloat SelectedBarHeight
         {
             get
@@ -36,6 +35,21 @@ namespace XLPagerTabStrip
             {
                 _selectedBarHeight = value;
                 UpdateSelectedBarYPosition();
+            }
+        }
+
+        nfloat? _selectedBarWidth;
+        internal nfloat? SelectedBarWidth
+        {
+            get
+            {
+                return _selectedBarWidth;
+            }
+
+            set
+            {
+                _selectedBarWidth = value;
+                UpdateSelectedBarPosition(false, SwipeDirection.None, PagerScroll.ScrollOnlyIfOutOfScreen);
             }
         }
         #endregion
@@ -101,9 +115,17 @@ namespace XLPagerTabStrip
 
 
             CGRect targetFrame = fromFrame;
-            var targetWidth = targetFrame.Size.Width + (toFrame.Size.Width - fromFrame.Size.Width) * progressPercentage;
-            targetFrame.Size = new CGSize(targetWidth, SelectedBar.Frame.Size.Height);
-            targetFrame.X += (toFrame.X - fromFrame.X) * +(progressPercentage);
+            if (this.SelectedBarWidth.HasValue)
+            {
+                targetFrame.Size = new CGSize(this.SelectedBarWidth.Value, SelectedBar.Frame.Size.Height);
+                targetFrame.X = fromFrame.X + (fromFrame.Width - this.SelectedBarWidth.Value) / 2;
+                targetFrame.X += (toFrame.X + (toFrame.Width - this.SelectedBarWidth.Value)/2 - targetFrame.X) * progressPercentage;
+            }
+            else {
+                var targetWidth = targetFrame.Size.Width + (toFrame.Size.Width - fromFrame.Size.Width) * progressPercentage;
+                targetFrame.Size = new CGSize(targetWidth, SelectedBar.Frame.Size.Height);
+                targetFrame.X += (toFrame.X - fromFrame.X) * progressPercentage;
+            }
 
             SelectedBar.Frame = new CGRect(targetFrame.X, SelectedBar.Frame.Y, targetFrame.Size.Width, SelectedBar.Frame.Size.Height);
 
@@ -130,8 +152,17 @@ namespace XLPagerTabStrip
 
             UpdateContentOffset(animated, pagerScroll: pagerScroll, toFrame: selectedCellFrame, toIndex: selectedCellIndexPath.Row);
 
-            selectedBarFrame.Size = new CGSize(selectedCellFrame.Size.Width, selectedBarFrame.Size.Height);
-            selectedBarFrame.X = selectedCellFrame.X;
+            if(this.SelectedBarWidth.HasValue)
+            {
+                selectedBarFrame.Size = new CGSize(this.SelectedBarWidth.Value, selectedBarFrame.Height);
+                selectedBarFrame.X = selectedCellFrame.X + (selectedCellFrame.Width - this.SelectedBarWidth.Value)/2;
+            }
+            else
+            {
+                selectedBarFrame.Size = new CGSize(selectedCellFrame.Width, selectedBarFrame.Height);
+                selectedBarFrame.X = selectedCellFrame.X;
+            }
+
 
             if (animated)
             {

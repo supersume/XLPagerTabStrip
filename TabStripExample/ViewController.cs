@@ -71,8 +71,9 @@ namespace TabStripExample
 			Settings.Style.ButtonBarItemBackgroundColor = themeColor;
 			Settings.Style.SelectedBarBackgroundColor = UIColor.White;
 			Settings.Style.ButtonBarItemFont = UIFont.BoldSystemFontOfSize(12);
-			Settings.Style.SelectedBarHeight = 4;
-			Settings.Style.ButtonBarMinimumLineSpacing = 0;
+			Settings.Style.SelectedBarHeight = 2;
+            Settings.Style.SelectedBarWidth = 40;
+            Settings.Style.ButtonBarMinimumLineSpacing = 0;
 			Settings.Style.ButtonBarItemTitleColor = UIColor.White;
 			Settings.Style.ButtonBarItemsShouldFillAvailiableWidth = true;
 			Settings.Style.ButtonBarLeftContentInset = 0;
@@ -110,22 +111,22 @@ namespace TabStripExample
 
 	public class ChildViewController : UIViewController, IIndicatorInfoProvider
 	{
-		public string Title { get; set; }
+		public string Header { get; set; }
 		public ChildViewController(IntPtr handle) : base(handle) { }
-		public ChildViewController(string title)
+		public ChildViewController(string header)
 		{
-			Title = title;
+            Header = header;
 		}
 		public IndicatorInfo IndicatorInfoForPagerTabStrip(PagerTabStripViewController pagerTabStripController)
 		{
-			return new IndicatorInfo(Title);
+			return new IndicatorInfo(Header);
 		}
 
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
-			switch (Title)
+			switch (Header)
 			{
 				case "PODCASTS":
 					View.BackgroundColor = UIColor.White;
