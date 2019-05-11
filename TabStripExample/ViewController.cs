@@ -62,15 +62,18 @@ namespace TabStripExample
 
 		public override void ViewDidLoad()
 		{
-			View = new UniversalView(View.Frame);
-			View.BackgroundColor = UIColor.FromRGB(214, 214, 214);
+            View = new UniversalView(View.Frame)
+            {
+                BackgroundColor = UIColor.FromRGB(214, 214, 214)
+            };
 
-			Settings.Style.ButtonBarBackgroundColor = themeColor;
+            Settings.Style.ButtonBarBackgroundColor = themeColor;
 			Settings.Style.ButtonBarItemBackgroundColor = themeColor;
 			Settings.Style.SelectedBarBackgroundColor = UIColor.White;
 			Settings.Style.ButtonBarItemFont = UIFont.BoldSystemFontOfSize(12);
-			Settings.Style.SelectedBarHeight = 4;
-			Settings.Style.ButtonBarMinimumLineSpacing = 0;
+			Settings.Style.SelectedBarHeight = 2;
+            Settings.Style.SelectedBarWidth = 40;
+            Settings.Style.ButtonBarMinimumLineSpacing = 0;
 			Settings.Style.ButtonBarItemTitleColor = UIColor.White;
 			Settings.Style.ButtonBarItemsShouldFillAvailiableWidth = true;
 			Settings.Style.ButtonBarLeftContentInset = 0;
@@ -108,22 +111,22 @@ namespace TabStripExample
 
 	public class ChildViewController : UIViewController, IIndicatorInfoProvider
 	{
-		public string Title { get; set; }
+		public string Header { get; set; }
 		public ChildViewController(IntPtr handle) : base(handle) { }
-		public ChildViewController(string title)
+		public ChildViewController(string header)
 		{
-			Title = title;
+            Header = header;
 		}
 		public IndicatorInfo IndicatorInfoForPagerTabStrip(PagerTabStripViewController pagerTabStripController)
 		{
-			return new IndicatorInfo(Title);
+			return new IndicatorInfo(Header);
 		}
 
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
-			switch (Title)
+			switch (Header)
 			{
 				case "PODCASTS":
 					View.BackgroundColor = UIColor.White;
@@ -141,4 +144,65 @@ namespace TabStripExample
 
 		}
 	}
+
+
+    [Register("SegmentedExampleViewController")]
+    public class SegmentedExampleViewController : SegmentedPagerTabStripViewController
+    {
+        UIColor themeColor = UIColor.White;
+        public SegmentedExampleViewController()
+        {
+
+        }
+
+        public SegmentedExampleViewController(IntPtr handle)
+            : base(handle)
+        {
+        }
+
+        public SegmentedExampleViewController(NSCoder coder) : base(coder)
+        {
+
+        }
+
+        public SegmentedExampleViewController(string nibName, NSBundle bundle) : base(nibName, bundle)
+        {
+
+        }
+
+        public override void DidReceiveMemoryWarning()
+        {
+            // Releases the view if it doesn't have a superview.
+            base.DidReceiveMemoryWarning();
+
+            // Release any cached data, images, etc that aren't in use.
+        }
+
+        public override void ViewDidLoad()
+        {
+            View = new UniversalView(View.Frame)
+            {
+                BackgroundColor = UIColor.FromRGB(214, 214, 214)
+            };
+
+            Settings.Style.SegmentedControlColor = themeColor;
+            Settings.Style.SegmentedWidth = UIScreen.MainScreen.Bounds.Width - 60;
+            Settings.Style.SegmentedHeight = 35;
+
+            base.ViewDidLoad();
+
+            // Perform any additional setup after loading the view
+        }
+
+        public override UIViewController[] CreateViewControllersForPagerTabStrip(PagerTabStripViewController pagerTabStripViewController)
+        {
+            ChildViewController controller1 = new ChildViewController("PODCASTS");
+            ChildViewController controller2 = new ChildViewController("VIDEOS");
+            ChildViewController controller3 = new ChildViewController("TRENDING");
+            ChildViewController controller4 = new ChildViewController("PROFILE");
+
+            return new UIViewController[] { controller1, controller2, controller3, controller4 };
+        }
+    }
+
 }

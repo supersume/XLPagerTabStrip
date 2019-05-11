@@ -19,8 +19,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -28,8 +26,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -53,6 +49,7 @@
     <Compile Include="PagerTabStripViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwipeDirection.cs" />
+    <Compile Include="SegmentedPagerTabStripViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="ButtonCell.xib" />

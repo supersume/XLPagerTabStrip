@@ -12,6 +12,7 @@ namespace XLPagerTabStrip
     [Register("ButtonBarPagerTabStripViewController")]
     public class ButtonBarPagerTabStripViewController : PagerTabStripViewController, IPagerTabStripDataSource, IPagerTabStripIsProgressiveDelegate, IUICollectionViewDelegateFlowLayout, IUICollectionViewDelegate, IUICollectionViewDataSource
     {
+        #region Properties and variables
         public ButtonBarPagerTabStripSettings Settings = new ButtonBarPagerTabStripSettings();
 
         public ButtonBarItemSpec<ButtonBarViewCell> ButtonBarItemSpec { get; set; }
@@ -25,11 +26,15 @@ namespace XLPagerTabStrip
 
         private ButtonBarView InitializeButtonBarView()
         {
-            UICollectionViewFlowLayout flowLayout = new UICollectionViewFlowLayout();
-            flowLayout.ScrollDirection = UICollectionViewScrollDirection.Horizontal;
+            UICollectionViewFlowLayout flowLayout = new UICollectionViewFlowLayout
+            {
+                ScrollDirection = UICollectionViewScrollDirection.Horizontal
+            };
             var buttonBarHeight = new nfloat(Settings.Style.ButtonBarHeight ?? 44f);
-            var buttonBar = new ButtonBarView(frame: new CGRect(0, 0, View.Frame.Size.Width, buttonBarHeight), layout: flowLayout);            
-            buttonBar.BackgroundColor = Settings.Style.ButtonBarBackgroundColor ?? UIColor.Orange;
+            var buttonBar = new ButtonBarView(frame: new CGRect(0, 0, View.Frame.Size.Width, buttonBarHeight), layout: flowLayout)
+            {
+                BackgroundColor = Settings.Style.ButtonBarBackgroundColor ?? UIColor.Orange
+            };
             buttonBar.SelectedBar.BackgroundColor = Settings.Style.SelectedBarBackgroundColor ?? UIColor.Black;
             buttonBar.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
             var newContainerViewFrame = new CGRect(ContainerView.Frame.X, buttonBarHeight, ContainerView.Frame.Size.Width, ContainerView.Frame.Size.Height - (buttonBarHeight - ContainerView.Frame.Y));
@@ -39,10 +44,12 @@ namespace XLPagerTabStrip
 
         private nfloat GetWidth(IndicatorInfo info)
         {
-            UILabel label = new UILabel();
-            label.TranslatesAutoresizingMaskIntoConstraints = false;
-            label.Font = Settings.Style.ButtonBarItemFont;
-            label.Text = info.Title;
+            UILabel label = new UILabel
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                Font = Settings.Style.ButtonBarItemFont,
+                Text = info.Title
+            };
             CGSize labelSize = label.IntrinsicContentSize;
             return labelSize.Width + (this?.Settings.Style.ButtonBarItemLeftRightMargin ?? 8) * 2;
         }
@@ -50,13 +57,13 @@ namespace XLPagerTabStrip
         private nfloat?[] cachedCellWidths { get; set; }
 
         private bool shouldUpdateButtonBarView = true;
+        #endregion
 
         #region Constructors
         public ButtonBarPagerTabStripViewController(IntPtr handle) : base(handle)
         {
             Delegate = this;
             DataSource = this;
-            //ButtonBarView = InitializeButtonBarView();
         }
 
         [Export("initWithCoder:")]
@@ -64,7 +71,6 @@ namespace XLPagerTabStrip
         {
             Delegate = this;
             DataSource = this;
-            //ButtonBarView = InitializeButtonBarView();
             Func<IndicatorInfo, nfloat> widthCallback = GetWidth;
             ButtonBarItemSpec = ButtonBarItemSpec<ButtonBarViewCell>.Create(widthCallback, "ButtonCell", NSBundle.FromClass(new ObjCRuntime.Class(typeof(ButtonBarViewCell))));
         }
@@ -73,14 +79,12 @@ namespace XLPagerTabStrip
         {
             Delegate = this;
             DataSource = this;
-            //ButtonBarView = InitializeButtonBarView();
         }
 
         public ButtonBarPagerTabStripViewController(string nibName, NSBundle bundle) : base(nibName, bundle)
         {
             Delegate = this;
             DataSource = this;
-            //ButtonBarView = InitializeButtonBarView();
         }
         #endregion
 
@@ -110,7 +114,7 @@ namespace XLPagerTabStrip
             ButtonBarView.ScrollsToTop = false;
             var flowLayout = ButtonBarView.CollectionViewLayout as UICollectionViewFlowLayout;
             flowLayout.ScrollDirection = UICollectionViewScrollDirection.Horizontal;
-            flowLayout.MinimumInteritemSpacing = 0;
+            flowLayout.MinimumInteritemSpacing = Settings.Style.ButtonBarMinimumInteritemSpacing ?? flowLayout.MinimumLineSpacing;
             flowLayout.MinimumLineSpacing = Settings.Style.ButtonBarMinimumLineSpacing ?? flowLayout.MinimumLineSpacing;
             var sectionInset = flowLayout.SectionInset;
             flowLayout.SectionInset = new UIEdgeInsets(sectionInset.Top, Settings.Style.ButtonBarLeftContentInset ?? sectionInset.Left,
@@ -121,6 +125,8 @@ namespace XLPagerTabStrip
             ButtonBarView.SelectedBar.BackgroundColor = Settings.Style.SelectedBarBackgroundColor;
 
             ButtonBarView.SelectedBarHeight = Settings.Style.SelectedBarHeight ?? ButtonBarView.SelectedBarHeight;
+            ButtonBarView.SelectedBarWidth = Settings.Style.SelectedBarWidth ?? ButtonBarView.SelectedBarWidth;
+
             //register button bar item cell
             if (ButtonBarItemSpec.NibName != null)
                 ButtonBarView.RegisterNibForCell(UINib.FromName(ButtonBarItemSpec.NibName, ButtonBarItemSpec.Bundle), "Cell");
@@ -176,7 +182,7 @@ namespace XLPagerTabStrip
         }
         #endregion
 
-        #region Public methods
+            #region Public methods
         public nfloat CalculateStretchedCellWidths(nfloat[] minimumCellWidths, nfloat suggestedStretchedCellWidth, int previousNumberOfLargeCells)
         {
             int numberOfLargeCells = 0;
@@ -296,7 +302,7 @@ namespace XLPagerTabStrip
             var indicatorInfo = childController.IndicatorInfoForPagerTabStrip(this);
 
             cell.Label.Text = indicatorInfo.Title;
-            cell.Label.Font = Settings.Style.ButtonBarItemFont ?? cell.Label.Font;
+            cell.Label.Font = Settings.Style.ButtonBarItemFont;
             cell.Label.TextColor = Settings.Style.ButtonBarItemTitleColor ?? cell.Label.TextColor;
             cell.ContentView.BackgroundColor = Settings.Style.ButtonBarItemBackgroundColor ?? cell.ContentView.BackgroundColor;
             cell.BackgroundColor = Settings.Style.ButtonBarItemBackgroundColor ?? cell.BackgroundColor;
@@ -307,11 +313,14 @@ namespace XLPagerTabStrip
                 cell.ImageView.HighlightedImage = indicatorInfo.HighlightedImage;
 
             ConfigureCell(cell, indicatorInfo);
-
+                
             if (PagerBehaviour.IsProgressiveIndicator)
                 ChangeCurrentIndexProgressive?.Invoke(CurrentIndex == indexPath.Item ? null : cell, CurrentIndex == indexPath.Item ? cell : null, 1, true, false);
             else
                 ChangeCurrentIndex?.Invoke(CurrentIndex == indexPath.Item ? null : cell, CurrentIndex == indexPath.Item ? cell : null, false);
+
+            cell.IsAccessibilityElement = true;
+            cell.AccessibilityLabel = indicatorInfo.AccessibilityLabel ?? cell.Label.Text;
 
             return cell;
         }
@@ -392,18 +401,6 @@ namespace XLPagerTabStrip
         public string NibName { get; set; }
         public NSBundle Bundle { get; set; }
         public Func<IndicatorInfo, nfloat> WidthCallback { get; set; }
-        //public float Width { get; set; }     
-
-        //public nfloat Weight
-        //{
-        //    get
-        //    {
-        //        if (NibName == null)
-        //            return Width.Invoke(info);
-        //        else
-        //            return Width.Invoke(info);
-        //    }
-        //}
 
         public static ButtonBarItemSpec<ButtonBarViewCell> Create(Func<IndicatorInfo, nfloat> widthCallback, string nibName = null, NSBundle bundle = null)
         {
@@ -414,22 +411,26 @@ namespace XLPagerTabStrip
 
     public class ButtonBarPagerTabStripSettings
     {
-        public Style Style { get; set; } = new Style();
+        public ButtonBarPagerTabStripStyle Style { get; set; } = new ButtonBarPagerTabStripStyle();
     }
 
-    public class Style
+    public class ButtonBarPagerTabStripStyle
     {
         public UIColor ButtonBarBackgroundColor { get; set; }
+        public nfloat? ButtonBarMinimumInteritemSpacing { get; set; }
         public nfloat? ButtonBarMinimumLineSpacing { get; set; }
         public nfloat? ButtonBarLeftContentInset { get; set; }
         public nfloat? ButtonBarRightContentInset { get; set; }
+
         public UIColor SelectedBarBackgroundColor { get; set; } = UIColor.Black;
-        public nfloat? SelectedBarHeight { get; set; } = 4;
+        public nfloat? SelectedBarHeight { get; set; } = 5;
+        public nfloat? SelectedBarWidth { get; set; }
+
         public UIColor ButtonBarItemBackgroundColor { get; set; }
         public UIFont ButtonBarItemFont { get; set; } = UIFont.SystemFontOfSize(18);
         public nfloat? ButtonBarItemLeftRightMargin { get; set; } = 8;
         public UIColor ButtonBarItemTitleColor { get; set; }
-        public bool ButtonBarItemsShouldFillAvailiableWidth { get; set; } = false;
+        public bool ButtonBarItemsShouldFillAvailiableWidth { get; set; } = true;
 
         // only used if button bar is created programaticaly and not using storyboards or nib files
         public nfloat? ButtonBarHeight { get; set; }
